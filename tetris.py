@@ -22,7 +22,7 @@ while True:
 				game_over = True
 		else:
 			current_tile.erase(screen)
-			current_tile.move_down()
+			current_tile.move_down(board_state)
 			current_tile.draw(screen)
 			if current_tile.is_stuck(board_state):
 				board_state = clear_rows(screen,board_state)
@@ -31,28 +31,28 @@ while True:
 	for event in pygame.event.get():
 		if event.type == KEYDOWN and current_tile is not None and not game_over:
 			if event.key == K_UP:
-				print 'UP button pressed'
+				print('UP button pressed')
 				current_tile.erase(screen)
 				#TODO: call a function to make the tile rotate
-				current_tile.rotate()
+				current_tile.rotate(board_state)
 				current_tile.draw(screen)
 			elif event.key == K_LEFT:
-				print 'LEFT button pressed'
+				print('LEFT button pressed')
 				current_tile.erase(screen)
 				#TODO: call a function to make the tile move to the left
-				current_tile.move_left()
+				current_tile.move_left(board_state)
 				current_tile.draw(screen)
 			elif event.key == K_RIGHT:
-				print 'RIGHT button pressed'
+				print('RIGHT button pressed')
 				current_tile.erase(screen)
 				#TODO: call a function to make the tile move to the right
-				current_tile.move_right()
+				current_tile.move_right(board_state)
 				current_tile.draw(screen)
 			elif event.key == K_DOWN:
-				print 'DOWN button pressed'
+				print('DOWN button pressed')
 				current_tile.erase(screen)
 				#TODO: call a function to make the tile move downwards
-				current_tile.move_down()
+				current_tile.move_down(board_state)
 				current_tile.draw(screen)
 			elif event.key == K_SPACE:
 				current_tile.erase(screen)

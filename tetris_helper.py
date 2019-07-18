@@ -29,7 +29,7 @@ class Tile:
 	def __init__(self,type_id):
 		self.shape = tile_shape[type_id]
 		self.color = tile_color[type_id]
-		self.position = [tiles_horizontal/2, 1]
+		self.position = [tiles_horizontal//2, 1]
 
 	def erase(self,screen):
 		for dx,dy in self.shape:
@@ -45,24 +45,32 @@ class Tile:
 			screen.fill(self.color,(x,y,tile_size,tile_size))
 		pygame.display.flip()
 
-	def rotate(self):
+	def rotate(self, board_state):
 		rotated_shape = [(y,-x) for x,y in self.shape]
 		for dx,dy in rotated_shape:
 			if self.position[0] + dx < 0 or self.position[0] + dx > tiles_horizontal - 1 or \
 				self.position[1] + dy < 0 or self.position[1] + dy > tiles_vertical - 1:
 					return #rotated shape goes out of bounds
+		if any(map(lambda x:board_state[x[1]+self.position[1]][x[0]+self.position[0]], rotated_shape)):
+			return #rotated shape intersects other tiles
 		self.shape = rotated_shape
 	
-	def move_down(self):
+	def move_down(self, board_state):
 		self.position[1] += 1
+		if self.is_intersecting(board_state):
+			self.position[1] -= 1
 
-	def move_left(self):
+	def move_left(self, board_state):
 		if all(map(lambda x:x[0]+self.position[0] > 0, self.shape)):
 			self.position[0] -= 1
+			if self.is_intersecting(board_state):
+				self.position[0] += 1
 		
-	def move_right(self):
+	def move_right(self, board_state):
 		if all(map(lambda x:x[0]+self.position[0] < tiles_horizontal - 1, self.shape)):
 			self.position[0] += 1
+			if self.is_intersecting(board_state):
+				self.position[0] -= 1
 
 	def is_stuck(self,board_state):
 		if any(map(lambda x:x[1]+self.position[1] == tiles_vertical-1, self.shape)) \
@@ -77,7 +85,7 @@ class Tile:
 
 	def drop(self,board_state):
 		while not self.is_stuck(board_state):
-			self.move_down()
+			self.move_down(board_state)
 
 #clear rows that are filled
 def clear_rows(screen,board_state):

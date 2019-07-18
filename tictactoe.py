@@ -28,7 +28,7 @@ def check_match():
 			pygame.draw.line(screen,(0,0,0),(0,i*200+95),(599,i*200+95),10)
 			return True
 	#vertical match
-	board_inverse_state = zip(*board_state)
+	board_inverse_state = list(zip(*board_state))
 	for i in range(3):
 		if not board_inverse_state[i][0]==' ' and len(set(board_inverse_state[i]))==1:
 			pygame.draw.line(screen,(0,0,0),(i*200+95,0),(i*200+95,599),10)
@@ -51,15 +51,15 @@ while True:
 		for event in pygame.event.get():
 			if event.type == MOUSEBUTTONUP:
 				mouse = pygame.mouse.get_pos()
-				grid_x = mouse[0] / 200
-				grid_y = mouse[1] / 200
+				grid_x = mouse[0] // 200
+				grid_y = mouse[1] // 200
 				if board_state[grid_y][grid_x] == ' ':
 					if which_symbol=='circle':
 						board_state[grid_y][grid_x] = 'o'
 						X = grid_x * 200 + 25
 						Y = grid_y * 200 + 25
 						#TODO: draw a circle at location (X,Y)
-						print 'draw a circle at location (X,Y)'
+						print('draw a circle at location (X,Y)')
 						screen.blit(circle,(X,Y))
 						pygame.display.flip()
 						game_over = check_match()
@@ -70,7 +70,7 @@ while True:
 						X = grid_x * 200 + 25
 						Y = grid_y * 200 + 25
 						#TODO: draw a cross at location (X,Y)
-						print 'draw a cross at location (X,Y)'
+						print('draw a cross at location (X,Y)')
 						screen.blit(cross,(X,Y))
 						game_over = check_match()
 						pygame.display.flip()
