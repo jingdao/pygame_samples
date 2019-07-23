@@ -1,6 +1,5 @@
 import pygame
 from pygame.locals import *
-import time
 
 pygame.init()
 button_size = 100
