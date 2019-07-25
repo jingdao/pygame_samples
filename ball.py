@@ -6,33 +6,31 @@ screen_width = 600
 screen_height = 800
 screen = pygame.display.set_mode((screen_width, screen_height))
 
+#load bedroom image
+bedroom = pygame.image.load('bedroom.png')
+
 #load ball image
 ball = pygame.image.load('ball.png')
 ball_width = ball.get_rect().width
 ball_height = ball.get_rect().height
 
 #constant parameters
-mass = 1.0
-initial_height = 800
 initial_velocity = 5
 coefficient_of_restitution = 0.9
 gravity = 9.8
-initial_energy = mass * gravity * initial_height
 
 #variable parameters
 velocity_x = initial_velocity
 velocity_y = 0
 position_x = 0
-position_y = initial_height
-dissipated_energy = 0
+position_y = 0
 rest = False
 
 #timing parameters
-fps = 30.0
-dt = 0.5
+fps = 20.0
 
 def draw_ball(x, y):
-	screen.fill((0,0,0))
+	screen.blit(bedroom, (0,0))
 	screen.blit(ball,(x,y))
 	pygame.display.flip()
 
@@ -42,17 +40,15 @@ while True:
 	clock.tick(fps)
 	position_x += velocity_x
 	if rest:
-		position_y = ball_height
+		position_y = screen_height - ball_height
 	else:
-		velocity_y -= gravity * dt
-		kinetic_energy = 0.5 * mass * velocity_y**2
-		potential_energy = initial_energy - kinetic_energy - dissipated_energy
-		position_y = potential_energy / (mass * gravity)
+		velocity_y += gravity
+		position_y += velocity_y
 	if position_x < 0 or position_x + ball_width > screen_width:
 		velocity_x = -(velocity_x * coefficient_of_restitution)
-	if position_y - ball_height < 10:
-		dissipated_energy += (1-coefficient_of_restitution**2) * kinetic_energy
+	if position_y + ball_height > 725:
 		velocity_y = -(velocity_y * coefficient_of_restitution)
 		if abs(velocity_y) < 2:
 			rest = True
-	draw_ball(position_x, screen_height - position_y)
+	print('x',position_x,'y',position_y,'vx',velocity_x,'vy',velocity_y)
+	draw_ball(position_x, position_y)

@@ -33,25 +33,21 @@ while True:
 			if event.key == K_UP:
 				print('UP button pressed')
 				current_tile.erase(screen)
-				#TODO: call a function to make the tile rotate
 				current_tile.rotate(board_state)
 				current_tile.draw(screen)
 			elif event.key == K_LEFT:
 				print('LEFT button pressed')
 				current_tile.erase(screen)
-				#TODO: call a function to make the tile move to the left
 				current_tile.move_left(board_state)
 				current_tile.draw(screen)
 			elif event.key == K_RIGHT:
 				print('RIGHT button pressed')
 				current_tile.erase(screen)
-				#TODO: call a function to make the tile move to the right
 				current_tile.move_right(board_state)
 				current_tile.draw(screen)
 			elif event.key == K_DOWN:
 				print('DOWN button pressed')
 				current_tile.erase(screen)
-				#TODO: call a function to make the tile move downwards
 				current_tile.move_down(board_state)
 				current_tile.draw(screen)
 			elif event.key == K_SPACE:
